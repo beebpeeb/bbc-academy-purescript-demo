@@ -1,0 +1,31 @@
+{ sources = [ "src/**/*.purs", "test/**/*.purs" ]
+, name = "whatson"
+, dependencies =
+  [ "aff"
+  , "affjax"
+  , "argonaut"
+  , "arrays"
+  , "bifunctors"
+  , "datetime"
+  , "effect"
+  , "either"
+  , "exceptions"
+  , "foldable-traversable"
+  , "formatters"
+  , "lists"
+  , "maybe"
+  , "prelude"
+  , "quickcheck"
+  , "react-basic-dom"
+  , "react-basic-hooks"
+  , "remotedata"
+  , "spec"
+  , "spec-discovery"
+  , "spec-quickcheck"
+  , "strings"
+  , "transformers"
+  , "web-dom"
+  , "web-html"
+  ]
+, packages = ./packages.dhall
+}

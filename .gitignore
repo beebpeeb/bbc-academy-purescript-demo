@@ -1,0 +1,9 @@
+.*
+!.editorconfig
+!.gitignore
+!.purs-repl
+dist/
+export/
+generated-docs/
+node_modules/
+output/
