@@ -18,7 +18,7 @@ Subsequent runs will be much faster.
 
 Observe that the PureScipt compiler generates (readable) JavaScript which is written into the `output` directory as Common JS modules. The upcoming 0.15 release of the PureScript compiler will switch entirely to ES6 modules.
 
-These JavaScript modules are then bundled by [Parcel](https://parceljs.org/).
+These JavaScript modules are then bundled by [Parcel](https://parceljs.org/) and the running application can be viewed on (localhost:1234)[localhost:1234].
 
 ## Test
 
