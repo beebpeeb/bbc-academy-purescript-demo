@@ -27,25 +27,20 @@ instance decodeJsonStartTime :: DecodeJson StartTime where
   decodeJson =
     decodeJson
       >=> fromString
-      >>> lmap (Json.fromString >>> UnexpectedValue)
+        >>> lmap (Json.fromString >>> UnexpectedValue)
 
 instance showStartTime :: Show StartTime where
   show (StartTime dt) = "(StartTime " <> show dt <> ")"
 
--- | Construct a `StartTime` from the given date/time string.
--- | The input string must be in the format "YYYY-MM-DD HH:mm:ss".
 fromString :: String -> Either String StartTime
 fromString = unformat dateTimeFormatter >=> StartTime >>> pure
 
--- | Return the given `StartTime` as a date string
 toDateString :: StartTime -> String
 toDateString (StartTime dt) = format dateFormatter dt
 
--- | Return the given `StartTime` as a time string
 toTimeString :: StartTime -> String
 toTimeString (StartTime dt) = format timeFormatter dt
 
--- | Return the given `StartTime` as a Unix timestamp
 toTimestamp :: StartTime -> String
 toTimestamp (StartTime dt) = format timestampFormatter dt
 

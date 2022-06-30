@@ -1,4 +1,4 @@
-module TV.UI.Component.Schedule where
+module TV.UI.Schedule where
 
 import Prelude
 
@@ -12,7 +12,7 @@ import React.Basic.Hooks as React
 
 import TV.Data.TVShow (Status(..))
 import TV.Data.TVShow as TVShow
-import TV.UI.Component.Common (Props)
+import TV.UI.Common (Props)
 
 component :: Component Props
 component =
@@ -22,7 +22,7 @@ component =
           { className: "container"
           , children:
               [ case props.response of
-                  Success schedule -> foldMap tvShow (sort schedule)
+                  Success tvShows -> foldMap tvShow $ sort tvShows
                   Loading -> spinner
                   _ -> mempty
               ]
@@ -32,13 +32,7 @@ component =
     guard (TVShow.hasDescription t)
       $ DOM.p
           { className: "text-muted"
-          , children:
-              [ DOM.text $ TVShow.descriptionString t
-              , DOM.span
-                  { className: "fs-6 ms-2"
-                  , children: [ statusBadge t ]
-                  }
-              ]
+          , children: [ DOM.text $ TVShow.descriptionString t ]
           }
 
   spinner =
@@ -56,15 +50,15 @@ component =
   statusBadge =
     TVShow.status >>> case _ of
       Standard -> mempty
-      Live label ->
-        DOM.span
+      Live ->
+        DOM.p
           { className: "badge bg-danger"
-          , children: [ DOM.text label ]
+          , children: [ DOM.text "bein útsending" ]
           }
-      Repeat label ->
-        DOM.span
+      Repeat ->
+        DOM.p
           { className: "badge bg-success"
-          , children: [ DOM.text label ]
+          , children: [ DOM.text "endurtekinn" ]
           }
 
   title t =
@@ -84,7 +78,7 @@ component =
                   }
               , DOM.div
                   { className: "col-10"
-                  , children: [ title, description ] <@> t
+                  , children: [ title, description, statusBadge ] <@> t
                   }
               ]
           }

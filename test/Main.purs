@@ -8,9 +8,7 @@ import Test.Spec.Discovery (discover)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Spec.Runner (runSpec)
 
--- | Discovers and executes all `Spec` tests
 main :: Effect Unit
-main =
-  launchAff_ do
-    modules <- discover """Test\..*\.Spec"""
-    runSpec [ consoleReporter ] modules
+main = launchAff_ do
+  modules <- discover """Test\..*\.Spec"""
+  runSpec [ consoleReporter ] modules

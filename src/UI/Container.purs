@@ -1,4 +1,4 @@
-module TV.UI.Component.Container where
+module TV.UI.Container where
 
 import Prelude
 
@@ -10,9 +10,9 @@ import React.Basic.Hooks as React
 import React.Basic.Hooks.Aff (useAff)
 
 import TV.API (fetchTVShows)
-import TV.UI.Component.Common (Props)
-import TV.UI.Component.Header as Header
-import TV.UI.Component.Schedule as Schedule
+import TV.UI.Common (Props)
+import TV.UI.Header as Header
+import TV.UI.Schedule as Schedule
 
 component :: Component Props
 component = do

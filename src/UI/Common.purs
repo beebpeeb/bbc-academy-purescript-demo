@@ -1,4 +1,4 @@
-module TV.UI.Component.Common where
+module TV.UI.Common where
 
 import TV.API (APIResponse)
 

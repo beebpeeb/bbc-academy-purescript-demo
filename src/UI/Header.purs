@@ -1,4 +1,4 @@
-module TV.UI.Component.Header where
+module TV.UI.Header where
 
 import Prelude
 
@@ -8,14 +8,14 @@ import React.Basic.Hooks (Component)
 import React.Basic.Hooks as React
 
 import TV.Data.TVShow as TVShow
-import TV.UI.Component.Common (Props)
+import TV.UI.Common (Props)
 
 component :: Component Props
 component =
   React.component "Header" \props -> React.do
     pure
       $ DOM.header
-          { className: "my-5"
+          { className: "mb-5 mt-3"
           , children:
               [ DOM.div
                   { className: "container"
@@ -30,13 +30,11 @@ component =
                           }
                       ]
                   }
-
               ]
           }
   where
-  info =
-    case _ of
-      NotAsked -> mempty
-      Loading -> "Hleð ..."
-      Success tvShows -> TVShow.scheduleDate tvShows
-      Failure error -> "Eitthvað fór úrskeiðis! " <> error
+  info = case _ of
+    NotAsked -> mempty
+    Loading -> "Hleð..."
+    Success tvShows -> TVShow.scheduleDate tvShows
+    Failure error -> "Eitthvað fór úrskeiðis! " <> error

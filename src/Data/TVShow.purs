@@ -2,7 +2,7 @@ module TV.Data.TVShow
   ( Status(..)
   , TVShow
   , TVShows
-  , dateString
+  , date
   , decodeTVShows
   , descriptionString
   , hasDescription
@@ -29,19 +29,15 @@ import TV.Data.Description as Description
 import TV.Data.StartTime (StartTime)
 import TV.Data.StartTime as StartTime
 
--- | Type representing the transmission status of a TV show
-data Status
-  = Live String
-  | Repeat String
-  | Standard
+-- | Union type representing the transmission status of a TV show.
+data Status = Live | Repeat | Standard
 
--- | Custom type representing the notion of a TV show.
--- | A `TVShow` is constructed from a JSON object.
+-- | Sum type representing a TV show listing.
+-- | A `TVShow` is constructed from a JSON object only.
 -- |
 -- | This type represents only the data needed from the external API.
 -- | Everything else is derived from this data by functions in this module.
-newtype TVShow =
-  TVShow
+newtype TVShow = TVShow
   { description :: Description
   , live :: Boolean
   , startTime :: StartTime
@@ -67,48 +63,46 @@ instance showTVShow :: Show TVShow where
 
 type TVShows = NonEmptyArray TVShow
 
-dateString :: TVShow -> String
-dateString (TVShow { startTime }) = StartTime.toDateString startTime
+date :: TVShow -> String
+date (TVShow { startTime }) = StartTime.toDateString startTime
 
 decodeTVShows :: Json -> Either JsonDecodeError TVShows
 decodeTVShows = decodeJson >=> (_ .: "results") >=> traverse decodeJson
 
--- | Return the description of a `TVShow` as a plain `String`
+-- | Returns the description of a `TVShow` as a plain `String`.
 descriptionString :: TVShow -> String
 descriptionString (TVShow { description }) = Description.toString description
 
--- | Return `true` if the given `TVShow` has a description
+-- | Returns `true` if the given `TVShow` has a description.
 hasDescription :: TVShow -> Boolean
 hasDescription (TVShow { description }) = Description.hasText description
 
--- | Return `true` if the given `TVShow` is a live transmission
+-- | Returns `true` if the given `TVShow` is a live transmission.
 isLive :: TVShow -> Boolean
 isLive (TVShow { live }) = live
 
--- | Return `true` if the given `TVShow` is a repeat transmission
+-- | Returns `true` if the given `TVShow` is a repeat transmission.
 isRepeat :: TVShow -> Boolean
 isRepeat (TVShow { description }) = Description.isRepeat description
 
 scheduleDate :: TVShows -> String
-scheduleDate = dateString <<< head
+scheduleDate = date <<< head
 
--- | Return the start time of a `TVShow` as a `String`
+-- | Returns the start time of a `TVShow` as a `String`.
 startTimeString :: TVShow -> String
 startTimeString (TVShow { startTime }) = StartTime.toTimeString startTime
 
--- | Return the derived transmission `Status` of the given `TVShow`
+-- | Returns the derived transmission `Status` of the given `TVShow`.
 status :: TVShow -> Status
-status =
-  flap [ isLive, isRepeat ]
-    >>> case _ of
-      [ true, _ ] -> Live "bein útsending"
-      [ false, true ] -> Repeat "endurtekinn"
-      _ -> Standard
+status = flap [ isLive, isRepeat ] >>> case _ of
+  [ true, _ ] -> Live
+  [ false, true ] -> Repeat
+  _ -> Standard
 
--- | Return the timestamp of the given `TVShow`
+-- | Returns the timestamp of the given `TVShow`.
 timestamp :: TVShow -> String
 timestamp (TVShow { startTime }) = StartTime.toTimestamp startTime
 
--- | Return the title of the given `TVShow` as a plain string
+-- | Returns the title of the given `TVShow` as a plain `String`.
 titleString :: TVShow -> String
 titleString (TVShow { title }) = NES.toString title

@@ -12,9 +12,8 @@ import Web.HTML (window)
 import Web.HTML.HTMLDocument (toNonElementParentNode)
 import Web.HTML.Window (document)
 
-import TV.UI.Component.Container as Container
+import TV.UI.Container as Container
 
--- | The main application entry point
 main :: Effect Unit
 main = do
   mainElement <- getElementById "main" <<< toNonElementParentNode =<< document =<< window
