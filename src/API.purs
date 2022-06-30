@@ -12,7 +12,6 @@ import Network.RemoteData (RemoteData)
 
 import TV.Data.TVShow (TVShows, decodeTVShows)
 
--- | Type synonym representing the data possibly returned by the external API
 type APIResponse = RemoteData String TVShows
 
 fetchTVShows :: Aff APIResponse
